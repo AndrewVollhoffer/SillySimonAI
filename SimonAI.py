@@ -1,24 +1,47 @@
-import keyboard
+from pynput.keyboard import Key, Controller
+from pynput import keyboard
 import time
+import os
 
-running = "true"
+def auto_press(key):
+    Simon.press(key)
+    Simon.release(key)
+    time.sleep(0.2)
 
-def check_escape():
-    print("check escape")
-    if keyboard.read_key() == 'esc':
-        "SimonAI.py".stop()
+def on_press(key):
+    # try:
+        # print('alphanumeric key {0} pressed'.format(
+            # key.char))
+    # except AttributeError:
+        # print('special key {0} pressed'.format(
+            # key))
+        
+    if key == keyboard.Key.esc:
+        os._exit(1)
 
-def auto_keyboard():
-    print("auto keyboard")
-    keyboard.press_and_release('a')
-    time.sleep(0.5)
+def on_release(key):
+    # print('{0} released'.format(
+        # key))
+    pass
 
+Simon = Controller()
+
+listener = keyboard.Listener(
+    on_press=on_press,
+    on_release=on_release)
+listener.start()
+
+running = True
+
+########START PROGRAM########
 
 print("Program started...")
 
-while(running == "true"):
+
+while(running):
+
+    auto_press('a')
+
     
-    check_escape()
-    auto_keyboard()
 
 print("Program stopped.")
