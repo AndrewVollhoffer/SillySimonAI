@@ -1,20 +1,23 @@
-# require 'auto_click' 
-require 'tty-reader'
+require 'io/console'
+require 'auto_click'
 
-keyboard = TTY::Reader.new
-
-# simon - AutoClick.new
+simon_ai = AutoClick.new
 
 running = true
 
 puts "Program started..."
 
-while(running)
+Thread.new {
+    while(running)
 
-    keyboard.on(:keyescape) do
-        running = false
+        simon_ai.type("a")
+
     end
-
-end
+    char = STDIN.getch
+    
+    if char == "\u0003"
+        exit
+    end
+}
 
 puts "Program stopped."
