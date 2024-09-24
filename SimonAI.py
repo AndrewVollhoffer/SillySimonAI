@@ -3,10 +3,14 @@ from pynput import keyboard
 import time
 import os
 
+############# INPUT METHODS #############
+
 def auto_press(key):
     Simon.press(key)
     Simon.release(key)
     time.sleep(0.2)
+
+############# KEYBOARD LISTENING METHODS #############
 
 def on_press(key):
     # try:
@@ -24,6 +28,8 @@ def on_release(key):
         # key))
     pass
 
+############# DECLARATIONS #############
+
 Simon = Controller()
 
 listener = keyboard.Listener(
@@ -33,12 +39,20 @@ listener.start()
 
 running = True
 
-########START PROGRAM########
+start_time = int(time.time())
+timer : int
+
+######## START PROGRAM ########
 
 print("Program started...")
 
-
 while(running):
+
+    # cycle_time = int(time.time())
+    # timer = cycle_time - start_time
+
+    # if timer % 2 == 1:
+        # print("running")
 
     auto_press('a')
 
