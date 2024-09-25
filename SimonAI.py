@@ -35,16 +35,16 @@ def auto_press(key, length = 0.2):
 
 
 def move_right_short():
-    auto_press(RIGHT, 0.5)
+    auto_press(RIGHT, 0.25)
 
 def move_right_long():
-    auto_press(RIGHT, 1)
+    auto_press(RIGHT, .5)
 
 def move_left_short():
-    auto_press(LEFT, 0.5)
+    auto_press(LEFT, .25)
 
 def move_left_long():
-    auto_press(LEFT, 1)
+    auto_press(LEFT, .5)
 
 # Jumping is VERY risky.
 def jump():
@@ -65,17 +65,18 @@ def guard():
 
 def grab():
     direction = random.randint(0, 1)
-    with keyboard.pressed(ACTION):
+    with Simon.pressed(ACTION):
         auto_press(ATTACK)
-        time.sleep(1)
-        if direction == 0:
-            move_right_short()
-        else:
-            move_left_short()
+
+    time.sleep(1)
+    if direction == 0:
+        move_right_short()
+    else:
+        move_left_short()
 
 def roll():
     direction = random.randint(0, 1)
-    with keyboard.pressed(ACTION):
+    with Simon.pressed(ACTION):
         if direction == 0:
             move_right_short()
         else:
@@ -91,13 +92,13 @@ def jab():
 def smash_attack():
     direction = random.randint(0, 2)
     if direction == 0:
-        with keyboard.pressed(LEFT):
+        with Simon.pressed(LEFT):
             auto_press(ATTACK)
     elif direction == 1:
-        with keyboard.pressed(RIGHT):
+        with Simon.pressed(RIGHT):
             auto_press(ATTACK)
     elif direction == 2:
-        with keyboard.pressed(UP):
+        with Simon.pressed(UP):
             auto_press(ATTACK)
 
 
@@ -110,10 +111,10 @@ def special():
 def special_attack():
     direction = random.randint(0, 1)
     if direction == 0:
-        with keyboard.pressed(UP):
+        with Simon.pressed(UP):
             auto_press(SPECIAL)
     elif direction == 1:
-        with keyboard.pressed(DOWN):
+        with Simon.pressed(DOWN):
             auto_press(SPECIAL)
 
 
@@ -188,8 +189,8 @@ while(running):
         case 13:
             special_attack()
         case _:
-            taunt()         
+            taunt()       
 
-    time.sleep(1)
+    # time.sleep(1)
 
 print("Program stopped.")
