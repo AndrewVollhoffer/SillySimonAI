@@ -1,16 +1,124 @@
+# Currently written for Smash Remix.
+
 from pynput.keyboard import Key, Controller
 from pynput import keyboard
 import time
 import os
+import random
 
+
+############# DECLARATIONS #############
+
+
+LEFT = 'a'
+RIGHT = 'd'
+UP = 'w'
+DOWN = 's'
+
+SPECIAL = 'j'
+ATTACK = 'k'
+ACTION = 'l'
+L1 = 'q'
+R1 = 'e'
+
+# ~ 14 TOTAL METHODS ~ # 
 ############# INPUT METHODS #############
 
-def auto_press(key):
+
+def auto_press(key, length = 0.2):
     Simon.press(key)
+    time.sleep(length)
     Simon.release(key)
-    time.sleep(0.2)
+
+
+### MOVEMENT ###
+
+
+def move_right_short():
+    auto_press(RIGHT, 0.5)
+
+def move_right_long():
+    auto_press(RIGHT, 1)
+
+def move_left_short():
+    auto_press(LEFT, 0.5)
+
+def move_left_long():
+    auto_press(LEFT, 1)
+
+# Jumping is VERY risky.
+def jump():
+    auto_press(UP)
+
+def duck():
+    auto_press(DOWN)
+
+
+### TAUNT/ROLL/GRAB ###
+
+
+def taunt():
+    auto_press(L1)
+
+def guard():
+    auto_press(ACTION)
+
+def grab():
+    direction = random.randint(0, 1)
+    with keyboard.pressed(ACTION):
+        auto_press(ATTACK)
+        time.sleep(1)
+        if direction == 0:
+            move_right_short()
+        else:
+            move_left_short()
+
+def roll():
+    direction = random.randint(0, 1)
+    with keyboard.pressed(ACTION):
+        if direction == 0:
+            move_right_short()
+        else:
+            move_left_short()
+
+
+### NORMAL ATTACKS ###
+
+
+def jab():
+    auto_press(ATTACK)
+
+def smash_attack():
+    direction = random.randint(0, 2)
+    if direction == 0:
+        with keyboard.pressed(LEFT):
+            auto_press(ATTACK)
+    elif direction == 1:
+        with keyboard.pressed(RIGHT):
+            auto_press(ATTACK)
+    elif direction == 2:
+        with keyboard.pressed(UP):
+            auto_press(ATTACK)
+
+
+### SPECIAL ATTACKS ###
+
+
+def special():
+    auto_press(SPECIAL)
+
+def special_attack():
+    direction = random.randint(0, 1)
+    if direction == 0:
+        with keyboard.pressed(UP):
+            auto_press(SPECIAL)
+    elif direction == 1:
+        with keyboard.pressed(DOWN):
+            auto_press(SPECIAL)
+
 
 ############# KEYBOARD LISTENING METHODS #############
+
 
 def on_press(key):
     # try:
@@ -28,7 +136,9 @@ def on_release(key):
         # key))
     pass
 
-############# DECLARATIONS #############
+
+############# INITIALIZATION #############
+
 
 Simon = Controller()
 
@@ -39,23 +149,47 @@ listener.start()
 
 running = True
 
-start_time = int(time.time())
-timer : int
-
 ######## START PROGRAM ########
+
 
 print("Program started...")
 
 while(running):
 
-    # cycle_time = int(time.time())
-    # timer = cycle_time - start_time
+    choice = random.randint(0, 13)
 
-    # if timer % 2 == 1:
-        # print("running")
+    match(choice):
+        case 0:
+            move_right_short()
+        case 1:
+            move_right_long()
+        case 2:
+            move_left_short()
+        case 3:
+            move_left_long()
+        case 4:
+            jump()
+        case 5:
+            duck()
+        case 6:
+            taunt()
+        case 7:
+            guard()
+        case 8:
+            grab()
+        case 9:
+            roll()
+        case 10:
+            jab()
+        case 11:
+            smash_attack()
+        case 12:
+            special()
+        case 13:
+            special_attack()
+        case _:
+            taunt()         
 
-    auto_press('a')
-
-    
+    time.sleep(1)
 
 print("Program stopped.")
